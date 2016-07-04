@@ -1,0 +1,13 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>shorten URL</title>
+	<link rel="shortcut icon" href=" {% static "favicon.ico" %}"/>
+	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+</head>
+<body>
+	<h1>sURL project</h1>
+	{% block content %}{% endblock %}
+</body>
+</html>
