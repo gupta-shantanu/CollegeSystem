@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from SIS.views import home,Detail,StudentFormView,UserFormView,FacultyFormView
+from SIS.views import *
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from django.conf import settings
@@ -25,12 +25,21 @@ urlpatterns = [
     url(r'register$', UserFormView.as_view(), name='register'),
     url(r'index.html$', StudentFormView.as_view(), name='index'),
     url(r'login$', StudentFormView.as_view(), name='login_user'),
-    url(r'register/(?P<id>[0-9]+)$', StudentFormView.as_view(), name='studentform'),
-    url(r'register/(?P<id>[0-9]+)$', FacultyFormView.as_view(), name='teacherform'),
-    url(r'(?P<username>[a-z0-9]+)$', Detail.as_view(), name='detail'),
+    url(r'^register/student/(?P<id>[0-9]+)$', StudentFormView.as_view(), name='studentform'),
+    url(r'^register/faculty/(?P<id>[0-9]+)$', FacultyFormView.as_view(), name='teacherform'),
+    url(r'^(?P<slug>[a-z0-9]+)$', Detail.as_view(), name='detail'),
+    url(r'^info/(?P<id>[0-9]+)$', Info.as_view(), name='info'),
+    url(r'^list/faculty$', FacultyList.as_view(), name='facultylist'),
+    url(r'^list/students$', StudentList.as_view(), name='studentlist'),
+    # url(r'^list/leaveRecord$', LeaveRecords.as_view(), name='leaveRecord'),
+     url(r'^RequestList$', RequestList.as_view(), name='RequestList'),
+    # url(r'^timesheet$', LeaveRequests.as_view(), name='timesheet'),
+    # url(r'^myrequests$', LeaveRequests.as_view(), name='myrequests'),
+    # url(r'^fillAttendance$', LeaveRequests.as_view(), name='fillAttendance'),
 
 ]
 
 urlpatterns+=staticfiles_urlpatterns()
 urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+

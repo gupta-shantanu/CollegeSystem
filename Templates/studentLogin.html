@@ -1,42 +1,48 @@
 {% extends 'base.html' %}
-{% block title %}{{ album }}{% endblock %}
-{% block albums_active %}active{% endblock %}
-
+{% block title %}{{ user.name }}{% endblock %}
+<script src="{% static 'js/jquery.chart.js'%}"></script>
 {% block body %}
 <div class="container-fluid songs-container">
 
     <div class="row">
 
-        <!-- Left Album Info -->
         <div class="col-sm-4 col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a href="{% url 'music:detail' album.id %}">
-                        {% if album.album_logo %}
-                            <img src="{{ album.album_logo.url }}" class="img-responsive">
+                     <a href="{% url 'detail' user.pk %}">
+                        {% if user.student.photo %}
+                            <img src="{{ user.student.photo.url }}" class="img-responsive">
                         {% else %}
                             <h3>No image to display</h3>
                         {% endif %}
                     </a>
-                    <h1>{{ album.album_title }} <small>{{ album.genre }}</small></h1>
-                    <h2>{{ album.artist }}</h2>
+                    <h1>{{ user.first_name }} <small>{{ user.last_name }}</small></h1>
+                    <h2>{{ user.student.year }}</h2>
+					<h2>{{ user.student.branch }}</h2>
                 </div>
             </div>
         </div>
 
-        <!-- Right Song Info -->
+
         <div class="col-sm-8 col-md-9">
 
             <ul class="nav nav-pills" style="margin-bottom: 10px;">
-                <li role="presentation" class="active"><a href="{% url 'music:detail' album.id %}">View All</a></li>
-                <li role="presentation"><a href="{% url 'music:create_song' album.id %}">Add New Song</a></li>
+                <li role="presentation" class="active"><a href="{% url detail album.id %}">View All</a></li>
+                <li role="presentation"><a href="{% url create_song album.id %}">Add New Song</a></li>
             </ul>
+			
 
             <div class="panel panel-default">
                 <div class="panel-body">
+					<div class="donut-chart"
+		
+							data-percent="0.75"
 
+							data-title="uptime %">
+
+					</div>
                     <h3>All Songs</h3>
-
+						
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}

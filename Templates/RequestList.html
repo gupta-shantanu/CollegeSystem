@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Faculty Requests{% endblock %}
+
+{% load staticfiles %}
+
+{% block body %}
+<script>
+function overlay(n) {
+	el = document.getElementById("overlay");
+	field = document.getElementById("hidden_field");
+	field.value=n;
+	el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+</script>
+      <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" class="active"><a href="{% url 'index' %}">View All</a></li>
+                <li role="presentation"><a href="{% url 'index' %}">Add New Song</a></li>
+            </ul>
+			
+
+            <div class="panel panel-default">
+                    <h3>All Requests</h3>
+						
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+							<th>S.no.</th>
+                            <th>Name</th>
+                            <th>Start Date</th>
+                            <th>Start End</th>
+							<th>Days</th>
+							<th>Response</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+						
+                        {% for r in request %}
+						
+                            <tr>
+								<td>
+                                   {{ forloop.counter }} {%if r.faculty.photo %} <img src="{{ r.faculty.photo.url }}" class="img-thumbnail" width="50px" height="50px"> {% endif%}
+                                </td>
+                                <td> <a target="_blank" href="{% url 'detail' r.faculty.user.username %}"> {{ r.faculty.user.first_name }} {{ r.faculty.user.last_name }} </a> </td>
+                                <td>
+                                   {{ r.start }}
+                                </td>
+                                <td>
+                                    {{ r.end }}
+                                </td>
+							    <td>
+                                    {{ r.days }}
+                                </td>
+
+								<td>
+										<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" onclick='overlay({{r.id}})'><span class="glyphicon glyphicon-th"></span>&nbsp; Respond</button>
+                                </td>
+								
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+					<div id="myModal" class="modal fade" role="dialog">
+					  <div class="modal-dialog">
+
+						<div class="modal-content">
+						  <div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Leave Request Response</h4>
+						  </div>
+						  <div class="modal-body">
+							<form action="{ url 'request_verdict' %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+										 <label for="reason">Reason:</label>
+										<textarea class="form-control" id="reason" name="reason" style="min-width: 100%"> Dear Sir,.... </textarea>
+                                        <input type="hidden" name="request_id" id="hidden_field" value="" />
+										<hr>
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Accept
+                                        </button>
+										<button type="submit" class="btn btn-success btn-xs">
+                                            <span class="glyphicon glyphicon-ok"></span>&nbsp; Reject
+                                        </button>
+                            </form>
+						  </div>
+						  <div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						  </div>
+						</div>
+
+					  </div>
+					</div>
+                </div>
+            </div>
+
+        </div>
+
+{% endblock %}

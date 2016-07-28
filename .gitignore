@@ -2,3 +2,4 @@ venv
 static_index
 *.pyc
 media/*
+.idea

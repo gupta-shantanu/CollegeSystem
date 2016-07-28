@@ -3,11 +3,10 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView,View
-from django.views.generic import DetailView
+from django.views.generic import DetailView,ListView
 from .models import *
 
 from .forms import StudentForm, FacultyForm, UserForm
-from .models import Student, Faculty
 
 def home(request):
     return render(request,'index.html')
@@ -15,7 +14,32 @@ def home(request):
 class Detail(DetailView):
     model=User
     template_name='detail.html'
+    slug_field = 'username'
 
+class Info(DetailView):
+    model=User
+    template_name='detail.html'
+
+class StudentList(ListView):
+    template_name='list.html'
+    context_object_name = 'student'
+
+    def get_queryset(self):
+        return Student.objects.all()
+
+
+class FacultyList(ListView):
+    template_name='list.html'
+    context_object_name = 'faculty'
+
+    def get_queryset(self):
+        return Faculty.objects.all()
+
+class RequestList(ListView):
+    context_object_name = 'request'
+    template_name='RequestList.html'
+    def get_queryset(self):
+        return LeaveRequest.objects.all()
 
 
 class FacultyFormView(View):
@@ -25,31 +49,28 @@ class FacultyFormView(View):
         form= self.form_class(None)
         return render(request,self.template_name,{'form':form})
     def post(self,request,id):
-        print("check")
-        form=self.form_class(request.POST)
+        form=self.form_class(request.POST,request.FILES)
         if form.is_valid():
             user=form.save(commit=False)
             user.user=User.objects.get(pk=self.kwargs['id'])
             user.save()
-            redirect("detail",username=user.user.username)
+            return redirect("detail",slug=user.user.username)
         return render(request,self.template_name,{'form':form})
 
 class StudentFormView(View):
     form_class=StudentForm
     template_name='register.html'
     def get(self,request,id):
-        User.objects.get(id=self.kwargs['id'])
         form= self.form_class(None)
         return render(request,self.template_name,{'form':form})
     def post(self,request,id):
-        form=self.form_class(request.POST)
-        print(form.errors)
+        form=self.form_class(request.POST,request.FILES)
         if form.is_valid():
             user=form.save(commit=False)
             obj=User.objects.get(id=self.kwargs['id'])
             user.user=obj
             user.save()
-            redirect("detail",username=user.user.username)
+            return redirect("detail",slug=user.user.username)
                 
         return render(request,self.template_name,{'form':form})
 
@@ -66,9 +87,9 @@ class UserFormView(View):
             password=form.cleaned_data['password1']
             user.set_password(password)
             user.save()
-            # if self.kwargs['teacher'] :
-            #     return redirect("teacherform",user=user.id)
-            # else:
+
+            if user.is_staff:
+                 return redirect("teacherform",id=user.id)
             return redirect("studentform",id=user.id)
 
         return render(request,self.template_name,{'form':form})
