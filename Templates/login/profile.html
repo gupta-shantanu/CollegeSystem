@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }}{% endblock %}
+{% load staticfiles %}
+
+{% block body %}
+    <link rel="stylesheet" href="{% static 'js/chart.css' %}">
+    <div class="container-fluid songs-container">
+
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <div class="panel panel-default">
+                    {% if user.student %}
+                        <div class="panel-body">
+                            <a href="{% url 'detail' user.username %}">
+                                {% if user.student.photo %}
+                                    <img src="{{ user.student.photo.url }}" class="img-responsive">
+                                {% else %}
+                                    <h3>No image to display</h3>
+                                {% endif %}
+                            </a>
+
+                            <h1>{{ user.first_name }}
+                                <small>{{ user.last_name }}</small>
+                            </h1>
+                            <small>{{ user.email }}</small>
+                        </div>
+                    {% else %}
+                        <div class="panel-body">
+                            <a href="{% url 'detail' user.username %}">
+                                {% if user.faculty.photo %}
+                                    <img src="{{ user.faculty.photo.url }}" class="img-responsive">
+                                {% else %}
+                                    <h3>No image to display</h3>
+                                {% endif %}
+                            </a>
+
+                            <h1>{{ user.first_name }}
+                                <small>{{ user.last_name }}</small>
+                            </h1>
+                            <small>{{ user.email }}</small>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-9">
+
+                <hr>
+                {% if user.student %}
+                    {% include 'login/student.html' %}
+                {% elif user.faculty %}
+                    {% include 'login/faculty.html' %}
+                {% else %}
+                    {% include 'login/admin.html' %}
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -6,10 +6,8 @@
 {% block body %}
 <script>
 function overlay(n) {
-	el = document.getElementById("overlay");
 	field = document.getElementById("hidden_field");
 	field.value=n;
-	el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
 }
 </script>
       <div class="col-sm-8 col-md-9">
@@ -35,9 +33,9 @@ function overlay(n) {
                             <th>Start Date</th>
                             <th>Start End</th>
 							<th>Days</th>
+                            <th>Reason</th>
 							<th>Type</th>
 							<th>Status</th>
-							<th>Response</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -58,30 +56,31 @@ function overlay(n) {
 							    <td>
                                     {{ r.days }}
                                 </td>
+                                <td>
+                                    {{ r.reason }}
+                                </td>
 								<td>
 									{%if r.type == 3 %}
-										<span class="label label-primary">Earned</span>
-									{%if r.type == 1 %}
+										<span class="label label-info">Earned</span>
+									{%elif r.type == 1 %}
 										<span class="label label-danger">Sick</span>
-									{%if r.type== 2 %}
-										<span class="label label-info">Casual</span>
+									{%elif r.type == 2 %}
+										<span class="label label-warning">Casual</span>
 									{% endif %}
 									
                                 </td>
 								<td>
 									{%if r.status == 3 %}
-										<span class="label label-primary">Pending</span>
-									{%if r.status == 1 %}
+										<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" onclick='overlay({{r.id}})'><span class="glyphicon glyphicon-th"></span>&nbsp; Respond</button>
+									{%elif r.status == 1 %}
 										<span class="label label-success">Accepted</span>
-									{%if r.status == 2 %}
-										<span class="label label-info">Rejected</span>
+									{%elif r.status == 2 %}
+										<span class="label label-danger">Rejected</span>
 									{% endif %}
 									
                                 </td>
 
-								<td>
-										<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" onclick='overlay({{r.id}})'><span class="glyphicon glyphicon-th"></span>&nbsp; Respond</button>
-                                </td>
+								
 								
                             </tr>
                         {% endfor %}
@@ -99,14 +98,14 @@ function overlay(n) {
 						  <div class="modal-body">
 							<form action="{% url 'request_verdict' %}" method="post" style="display: inline;">
                                         {% csrf_token %}
-										 <label for="reason">Reason:</label>
+										 <label for="reason">Please explain reason for acception/rejection:</label>
 										<textarea class="form-control" id="reason" name="reason" style="min-width: 100%"> Dear Sir,.... </textarea>
                                         <input type="hidden" name="request_id" id="hidden_field" value="" />
 										<hr>
-                                        <button type="submit" class="btn btn-danger btn-xs">
+                                        <button type="submit" name="accept" value="accept" class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-remove"></span>&nbsp; Accept
                                         </button>
-										<button type="submit" class="btn btn-success btn-xs">
+										<button type="submit" name="reject" value="reject" class="btn btn-danger btn-xs">
                                             <span class="glyphicon glyphicon-ok"></span>&nbsp; Reject
                                         </button>
                             </form>

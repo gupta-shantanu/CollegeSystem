@@ -44,11 +44,11 @@ class LeaveRequest(models.Model):
     reason=models.CharField(max_length=900)
     verdict=models.CharField(max_length=900,null=True)
     def days(self):
-        return self.end-self.start
+        return (self.end-self.start).days
 
 
 class LeaveRecord(models.Model):
-    faculty=models.ForeignKey(to=Faculty, related_name="leaves", null=True, blank=True)
+    faculty=models.OneToOneField(Faculty,on_delete=models.CASCADE,null=True)
     casual_leave=models.IntegerField(default=7)
     earned_leave=models.IntegerField(default=10)
     sick_leave=models.IntegerField(default=8)

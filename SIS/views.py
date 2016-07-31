@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.views.generic.edit import CreateView, UpdateView, DeleteView,View
 from django.views.generic import DetailView,ListView
 from django.db.models import Q
@@ -15,10 +15,28 @@ def home(request):
     return render(request,'index.html')
 
 def requestverdict(request):
-    return render(request,'index.html')
 
+    if request.POST.get('accept'):
+        result=1
+    else:
+        result=2
+    r=LeaveRequest.objects.get(id=request.POST.get('request_id'))
+    r.status=result
+    r.verdict=request.POST.get('reason')
+    r.save()
+    records=LeaveRecord.objects.get(faculty=r.faculty)
+    if r.type==1:
+        records.sick_leave-=1
+    elif r.type==2:
+        records.casual_leave-=1
+    elif r.type==2:
+        records.earned_leave-=1
+    records.save()
+
+    return redirect("RequestList")
+@login_required
 def myprofile(request):
-    return render(request,'index.html')
+    return render_to_response('login/profile.html',{'user':request.user})
 
 def logout_view(request):
     logout(request)
@@ -66,9 +84,10 @@ class FacultyFormView(View):
         form=self.form_class(request.POST,request.FILES)
         if form.is_valid():
             user=form.save(commit=False)
-            user.user=User.objects.get(pk=self.kwargs['id'])
+            user.user=request.user
             user.save()
-            return redirect("detail",slug=user.user.username)
+            LeaveRecord(faculty=user).save()
+            return redirect("profile")
         return render(request,self.template_name,{'form':form})
 
 class StudentFormView(View):
@@ -86,7 +105,7 @@ class StudentFormView(View):
             obj=request.user
             user.user=obj
             user.save()
-            return redirect("detail",slug=user.user.username)
+            return redirect("profile")
                 
         return render(request,self.template_name,{'form':form})
 
@@ -142,9 +161,9 @@ class LeaveFormView(View):
         form=self.form_class(request.POST,request.FILES)
         if form.is_valid():
             re=form.save(commit=False)
-            re.user=request.user
+            re.faculty=request.user.faculty
             re.save()
-            # return redirect("profile")
+            return redirect("profile")
 
         return render(request,self.template_name,{'form':form})
 

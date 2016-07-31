@@ -1,11 +1,7 @@
 from django.contrib.auth.models import User
 from django import forms
 from .models import Student,Faculty,LeaveRequest
-from django.core.urlresolvers import reverse
-from django.contrib.admin.widgets import AdminDateWidget
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.admin import widgets
-from django.forms.extras.widgets import SelectDateWidget
 
 class UserForm(UserCreationForm):
 
@@ -30,6 +26,9 @@ class StudentForm(forms.ModelForm):
         fields = ['photo','DOB','branch','year','tenth_marks','inter_marks','current_marks']
 
 class LeaveRequestForm(forms.ModelForm):
+    start = forms.DateField(widget=forms.SelectDateWidget())
+    end= forms.DateField(widget=forms.SelectDateWidget())
+    reason=forms.CharField(widget=forms.Textarea)
     class Meta:
         model = LeaveRequest
         fields = ['start','end','type','reason']
