@@ -33,6 +33,10 @@ class LeaveRequest(models.Model):
     faculty=models.ForeignKey(to=Faculty, related_name="request", null=True, blank=True)
     start=models.DateField()
     end=models.DateField()
+    type=models.IntegerField(
+        choices=((1,"Sick"),(2,'Casual'),(3,'Earned')),
+        default=3,
+        )
     status=models.IntegerField(
         choices=((1,"Accepted"),(2,'Rejected'),(3,'Pending')),
         default=3,

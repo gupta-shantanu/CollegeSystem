@@ -32,4 +32,5 @@ class StudentForm(forms.ModelForm):
 class LeaveRequestForm(forms.ModelForm):
     class Meta:
         model = LeaveRequest
-        fields = ['start','end','reason']
+        fields = ['start','end','type','reason']
+

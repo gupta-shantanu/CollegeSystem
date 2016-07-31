@@ -1,0 +1,109 @@
+<script>
+function overlay(n) {
+	el = document.getElementById("overlay");
+	field = document.getElementById("hidden_field");
+	field.value=n;
+	document.getElementById("subject").innerHTML=n;
+	el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}
+</script>
+<div class="modal-body">
+							<form action="{% url 'fillAttendance' %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+										 <label for="Date">Date:</label>
+										<input type="date" id="day" name="day">
+                                        <input type="hidden" name="request_id" id="hidden_field" value="" />
+										<hr>
+										<label for="Subject" id="msg">You will be filling attendance for following subject:</label>
+										<label for="Subject" id="subject"></label>
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Proceed
+                                        </button>
+                            </form>
+</div>
+<div class="panel-group">
+  <div class="panel .panel-info">
+	<div class="panel-heading">Your Subjects</div>
+    <div class="panel-body">
+						<ul>
+	                        {% for s in  faculty.subjects_set.all%}
+								<li>
+                                   {{ s }}
+                                </li>
+						</ul>
+                        {% endfor %}
+	</div>
+  </div>
+ <div class="panel .panel-info">
+	<div class="panel-heading">Fill Todays Attendance</div>
+	{% for s in  faculty.subjects_set.all%}
+	<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" onclick='overlay({{ s }})'><span class="glyphicon glyphicon-th"></span>&nbsp; {{ s }}</button>
+    {% endfor %}
+	<div class="panel-body">
+  </div>
+  <div class="panel .panel-info">
+	<div class="panel-heading">Leave Records</div>
+	<h1> Remaining Leaves </h1>
+	{% for s in faculty.attendancerecord.all%}
+	 <a href="#">Casual Leaves <span class="badge">s.casual_leave</span></a><br>
+	<a href="#">Sick Leaves <span class="badge">s.sick_leave</span></a><br>
+	<a href="#">Earned Leave <span class="badge">s.earned_leave</span></a><br>
+    {% endfor %}
+	<button data-toggle="collapse" data-target="#history">Leave Request Status</button>
+	<div id="history" class="collapse">
+	                    <table class="table">
+                        <thead>
+                        <tr>
+							<th>S.no.</th>
+                            <th>Start Date</th>
+                            <th>Start End</th>
+							<th>Days</th>
+							<th>Your Reason</th>
+							<th>Response</th>
+							<th>Verdict</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+						
+                        {% for r in faculty.leaverequest_set.all %}
+						
+                            <tr>
+								<td>
+                                   {{ forloop.counter }}
+                                </td>
+                                <td> <a target="_blank" href="{% url 'detail' r.faculty.user.username %}"> {{ r.faculty.user.first_name }} {{ r.faculty.user.last_name }} </a> </td>
+                                <td>
+                                   {{ r.start }}
+                                </td>
+                                <td>
+                                    {{ r.end }}
+                                </td>
+							    <td>
+                                    {{ r.days }}
+                                </td>
+								<td>
+									{{ r.reason }}
+								</td>
+								<td>
+									{%if r.status == 3 %}
+										<span class="label label-primary">Pending</span>
+									{%if r.status == 1 %}
+										<span class="label label-success">Accepted</span>
+									{%if r.status == 2 %}
+										<span class="label label-info">Rejected</span>
+									{% endif %}
+									
+                                </td>
+								<td>
+									{{ r.verdict }}
+								</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+					</table>
+	</div>
+	<a href="{% url 'newLeave' %}" class="btn btn-info" role="button">Apply For New Leave Here</a>
+	<div class="panel-body">
+  </div>
+  
+</div>
