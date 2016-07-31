@@ -1,5 +1,0 @@
-<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/base.css" />
-<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/widgets.css" />
-<script type="text/javascript" src="/jsi18n/"></script>
-<script type="text/javascript" src="{% admin_media_prefix %}js/core.js"></script>
-{{ form.media }}

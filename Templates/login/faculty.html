@@ -3,29 +3,55 @@ function overlay(n) {
 
 	field = document.getElementById("hidden_field");
 	field.value=n;
-	document.getElementById("subject").innerHTML=n;
+	document.getElementById("subject_name").innerHTML=n;
 
 }
 </script>
+<div id="subject" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+	<div class="modal-content">
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">Add New Subject to Your Profile</h4>
+	  </div>
+	  <div class="modal-body">
+		<form action="{% url 'newSubject' %}" method="post">
+					{% csrf_token %}
+					<input type="text" name="name" id="name" value="" />
+					<button type="submit" name="accept" value="accept" class="btn btn-success btn-xs">
+						<span class="glyphicon glyphicon-plus"></span>&nbsp;add
+					</button>
+		</form>
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+
+  </div>
+</div>
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
 	<div class="modal-content">
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h4 class="modal-title">Leave Request Response</h4>
+		<h4 class="modal-title">Proceed to take Attendance....</h4>
 	  </div>
 	  <div class="modal-body">
-		<form action="{% url 'fillAttendance' %}" method="post" style="display: inline;">
+		<form action="{% url 'fillAttendance' %}" method="post">
 					{% csrf_token %}
-					 <label for="Date">Date:</label>
+                    <label for="Date">Date:</label>
 					<input type="date" id="day" name="day">
 					<input type="hidden" name="request_id" id="hidden_field" value="" />
-					<hr>
-					<label for="Subject" id="msg">You will be filling attendance for following subject:</label>
-					<label for="Subject" id="subject"></label>
-					<button type="submit" class="btn btn-danger btn-xs">
-					 <span class="glyphicon glyphicon-remove"></span>&nbsp; Proceed
+                    <br>
+					<label class='label label-info' for="Message" id="msg">Subject:</label>
+                    <label class="label label-primary" id="subject_name">ll</label>
+					<label for="SubjectName" id="subject_name"></label>
+                    <hr>
+					<button type="submit" class="btn btn-success btn-xs">
+					 <span class="glyphicon glyphicon-ok"></span>&nbsp; Proceed
 					</button>
 		</form>
 	  </div>
@@ -37,39 +63,67 @@ function overlay(n) {
   </div>
 </div>
 <div class="panel-group">
-  <div class="panel .panel-info">
-	<div class="panel-heading">Your Subjects</div>
+  <div class="panel panel-info">
+	<div class="panel-heading">Your Subjects <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#subject"><span class="glyphicon glyphicon-plus"></span>&nbsp; Add</button></div>
 		<div class="panel-body">
-							<ul>
-								{% for s in  user.faculty.teaches.all%}
-									<li>
-									   {{ s }}
-									</li>
-							</ul>
-							{% endfor %}
+                <div class="list-group">
+
+                    {% for s in  user.faculty.teaches.all%}
+									  <a href="#" class="list-group-item">{{ s.subject_name }}</a>
+                    {% endfor %}
+                </div>
+							
+							
 		</div>
+		
   </div>
 
- <div class="panel .panel-info">
+ <div class="panel panel-info">
 	<div class="panel-heading">Fill Todays Attendance</div>
 	<div class="panel-body">
+	{% if user.faculty.teaches.all %}
 	{% for s in  user.faculty.teaches.all%}
-	<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" onclick='overlay({{ s }})'><span class="glyphicon glyphicon-th"></span>&nbsp; {{ s }}</button>
+	<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" onclick="overlay('{{ s.subject_name }}')"><span class="glyphicon glyphicon-th"></span>&nbsp; {{ s.subject_name }}</button>
     {% endfor %}
+	{%else%}
+	You have to add atleast one subjects to fill attendance...
+	{% endif %}
 	</div>
   </div>
-  <div class="panel .panel-info">
-	<div class="panel-heading">Leave Records</div>
-	<div class="panel-body">
-	<h3> Remaining Leaves </h3>	
-	 <label class="label label-primary">Casual Leaves <span class="badge">{{ user.faculty.leaverecord.casual_leave }}</span> </label>
-	 
-	
-	<label class="label label-warning">Earned Leave <span class="badge"> {{ user.faculty.leaverecord.earned_leave }}</span> </label>
-	<label class="label label-danger">Sick Leaves <span class="badge">{{ user.faculty.leaverecord.sick_leave }}</span></label>
+  <div class="panel panel-info">
+	<div class="panel-heading">
+	Leaves
 	<a href="{% url 'newLeave' %}" class="btn btn-info btn-xs" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Apply</a>
 	
-	<button class='btn btn-warning' data-toggle="collapse" data-target="#history">Leave Request Status</button><br>
+	<button class='btn btn-success btn-xs' data-toggle="collapse" data-target="#history"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Leave Request Status</button><br>
+	</div>
+	<div class="panel-body">
+	<h3> Leave Records </h3>	
+
+	 
+	<table class="table">
+		<thead>
+			<th>Type</th>
+			<th>Remaining</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Earned Leaves</td>
+				<td>{{ user.faculty.leaverecord.earned_leave }}</td>
+			</tr>
+			<tr>
+				<td>Sick Leaves</td>
+				<td>{{ user.faculty.leaverecord.sick_leave }}</td>
+			</tr>
+			<tr>
+				<td>Casual Leaves</td>
+				<td>{{ user.faculty.leaverecord.casual_leave }}</td>
+			</tr>
+		</tbody>
+
+	</table>
+
+	
 	<div id="history" class="collapse">
 	                    <table class="table">
                         <thead>

@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^list/faculty$', FacultyList.as_view(), name='facultylist'),
     url(r'^list/students$', StudentList.as_view(), name='studentlist'),
     url(r'^request$', LeaveFormView.as_view(), name='newLeave'),
+    url(r'^addsubject$', newSubject, name='newSubject'),
     url(r'^response$', requestverdict, name='request_verdict'),
     url(r'^RequestList$', RequestList.as_view(), name='RequestList'),
     url(r'^(?P<slug>[a-z0-9]+)$', Detail.as_view(), name='detail'),

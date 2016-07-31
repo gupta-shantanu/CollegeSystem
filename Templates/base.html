@@ -30,8 +30,8 @@
 
         <div class="collapse navbar-collapse" id="topNavBar">
             <ul class="nav navbar-nav">
-                <li class="{% block albums_active %}{% endblock %}"><a href="{% url 'index' %}"><span class="glyphicon glyphicon-cd" aria-hidden="true"></span>&nbsp; Home</a></li>
-                <li class="{% block songs_active %}{% endblock %}"><a href="{% url 'index' %}"><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp; MyProfile</a></li>
+                <li class="{% block albums_active %}{% endblock %}"><a href="{% url 'index' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; Home</a></li>
+                <li class="{% block songs_active %}{% endblock %}"><a href="{% url 'index' %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp; MyProfile</a></li>
             </ul>
             <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'search' %}">
                 <div class="form-group">

@@ -1,4 +1,4 @@
-{% extends 'base_visitor.html' %}
+{% extends 'base.html' %}
 {% block title %}Register{% endblock %}
 {% block register_active %}active{% endblock %}
 
@@ -10,7 +10,7 @@
         <div class="col-sm-12 col-md-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>Register for an Account</h3>
+                    <h3>Request for a leave</h3>
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
@@ -25,7 +25,7 @@
                     </form>
                 </div>
                 <div class="panel-footer">
-                    Already have an account? <a href="% url 'login_user' %">Click here</a> to log in.
+                    You will have to wait for Administrators approval after applying for leave <a href="{% url 'profile' %}">Go Back</a>.
                 </div>
             </div>
         </div>

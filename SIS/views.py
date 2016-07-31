@@ -34,9 +34,21 @@ def requestverdict(request):
     records.save()
 
     return redirect("RequestList")
+
+
+@login_required
+def newSubject(request):
+
+    if request.POST.get('name'):
+
+        r=Subjects(faculty=request.user.faculty,subject_name=request.POST.get('name'))
+        r.save()
+
+    return redirect("profile")
+
 @login_required
 def myprofile(request):
-    return render_to_response('login/profile.html',{'user':request.user})
+    return render(request,'login/profile.html',{'user':request.user})
 
 def logout_view(request):
     logout(request)
@@ -151,7 +163,7 @@ class SearchView(ListView):
 
 class LeaveFormView(View):
     form_class=LeaveRequestForm
-    template_name='register.html'
+    template_name='RequestForm.html'
     @method_decorator(login_required)
     def get(self,request):
         form= self.form_class(None)
