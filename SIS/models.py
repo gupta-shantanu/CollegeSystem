@@ -53,11 +53,7 @@ class LeaveRecord(models.Model):
     earned_leave=models.IntegerField(default=10)
     sick_leave=models.IntegerField(default=8)
 
-class AttendanceRecord(models.Model):
-    student=models.ForeignKey(to=Student, related_name="student", null=True, blank=True)
-    subject=models.IntegerField(default=0)
-    Date=models.DateField()
-    present=models.BooleanField()
+
 
 class Subject(models.Model):
     subject_name=models.CharField(max_length=100)
@@ -67,3 +63,8 @@ class SelectedSubject(models.Model):
     subject=models.ForeignKey(to=Subject, related_name="studies", null=True, blank=True)
     student=models.ForeignKey(to=Student, related_name="selected", null=True, blank=True)
     
+
+class AttendanceRecord(models.Model):
+    selected_subject=models.ForeignKey(to=SelectedSubject, related_name="attendance", null=True, blank=True)
+    Date=models.DateField()
+    present=models.BooleanField()

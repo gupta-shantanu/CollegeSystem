@@ -44,13 +44,9 @@ def requestverdict(request):
 def newSelectedSubject(request,id):
     sub=Subject.objects.get(id=id)
     try:
-        if not SelectedSubject.objects.get(student=request.user.student,subject=sub):
-            r=SelectedSubject(student=request.user.student,subject=sub)
-            r.save()
+        SelectedSubject.objects.get_or_create(student=request.user.student,subject=sub)
     except:
-        if not Subject.objects.get(faculty=request.user.faculty,subject_name=sub.subject_name):
-            r=Subject(faculty=request.user.faculty,subject_name=sub.subject_name)
-            r.save()
+        Subject.objects.get_or_create(faculty=request.user.faculty,subject_name=sub.subject_name)
 
     return redirect("profile")
 
@@ -92,7 +88,7 @@ class StudentList(ListView):
 
 class FacultyList(ListView):
     template_name='list.html'
-    context_object_name = 'faculty'
+    context_object_name = 'student'
 
     def get_queryset(self):
         return Faculty.objects.all()

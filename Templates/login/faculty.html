@@ -16,10 +16,17 @@ function overlay(n) {
 		<h4 class="modal-title">Add New Subject to Your Profile</h4>
 	  </div>
 	  <div class="modal-body">
+	    <div class="alert alert-warning">
+			<strong>Note!</strong> You can also duplicate one of the following subjects taught by other professors too...
+		</div>
+
 		{% for s in subjects %}
                <a href="{% url 'selectSubject' s.id %}" ><button  class="btn btn-primary" id="subject_id">{{  s.subject_name }} by Prof.{{  s.faculty.user.first_name }}</button></a>
         {% endfor %}
 		<hr>
+		<div class="alert alert-warning">
+			<strong>OR...</strong> Add a new subject
+		</div>
 		<form action="{% url 'newSubject' %}" method="post">
 					{% csrf_token %}
 					<input type="text" name="name" id="name" value="" />
@@ -103,32 +110,7 @@ function overlay(n) {
 	</div>
 	<div class="panel-body">
 	<h3> Leave Records </h3>	
-
-	 
-	<table class="table">
-		<thead>
-			<th>Type</th>
-			<th>Remaining</th>
-		</thead>
-		<tbody>
-			<tr>
-				<td>Earned Leaves</td>
-				<td>{{ user.faculty.leaverecord.earned_leave }}</td>
-			</tr>
-			<tr>
-				<td>Sick Leaves</td>
-				<td>{{ user.faculty.leaverecord.sick_leave }}</td>
-			</tr>
-			<tr>
-				<td>Casual Leaves</td>
-				<td>{{ user.faculty.leaverecord.casual_leave }}</td>
-			</tr>
-		</tbody>
-
-	</table>
-
-	
-	<div id="history" class="collapse">
+		<div id="history" class="collapse">
 	                    <table class="table">
                         <thead>
                         <tr>
@@ -179,6 +161,31 @@ function overlay(n) {
                         </tbody>
 					</table>
 	</div>
+	 
+	<table class="table">
+		<thead>
+			<th>Type</th>
+			<th>Remaining</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Earned Leaves</td>
+				<td>{{ user.faculty.leaverecord.earned_leave }}</td>
+			</tr>
+			<tr>
+				<td>Sick Leaves</td>
+				<td>{{ user.faculty.leaverecord.sick_leave }}</td>
+			</tr>
+			<tr>
+				<td>Casual Leaves</td>
+				<td>{{ user.faculty.leaverecord.casual_leave }}</td>
+			</tr>
+		</tbody>
+
+	</table>
+
+	
+
 
 
   </div>

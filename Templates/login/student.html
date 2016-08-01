@@ -25,13 +25,6 @@ function overlay(n) {
           {% for s in subjects %}
               <a href="{% url 'selectSubject' s.id %}" ><button  class="btn btn-primary btn-xs" id="subject_id">{{  s.subject_name }} by Prof.{{  s.faculty.user.first_name }}</button></a>
           {% endfor %}
-		<form action="{% url 'newSubject' %}" method="post">
-					{% csrf_token %}
-					<input type="text" name="name" id="name" value="" />
-					<button type="submit" name="accept" value="accept" class="btn btn-success btn-xs">
-						<span class="glyphicon glyphicon-plus"></span>&nbsp;add
-					</button>
-		</form>
 	  </div>
 	  <div class="modal-footer">
 		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -77,8 +70,8 @@ function overlay(n) {
 		<div class="panel-body">
                 <div class="list-group">
 
-                    {% for s in  user.faculty.teaches.all%}
-									  <a href="#" class="list-group-item">{{ s.subject_name }}</a>
+                    {% for s in  user.student.selected.all%}
+									  <a href="#" class="list-group-item">{{ s.subject.subject_name }}</a>
                     {% endfor %}
                 </div>
 							
