@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse,reverse_lazy
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.views.generic.edit import CreateView, UpdateView, DeleteView,View
 from django.views.generic import DetailView,ListView
@@ -12,7 +12,11 @@ from .models import *
 from .forms import StudentForm, FacultyForm, UserForm, LeaveRequestForm
 
 def home(request):
-    return render(request,'index.html')
+    return render(request,'home.html')
+
+def loginFirst(request):
+    return redirect("login")
+
 
 def requestverdict(request):
 
@@ -37,18 +41,34 @@ def requestverdict(request):
 
 
 @login_required
-def newSubject(request):
-
-    if request.POST.get('name'):
-
-        r=Subjects(faculty=request.user.faculty,subject_name=request.POST.get('name'))
-        r.save()
+def newSelectedSubject(request,id):
+    sub=Subject.objects.get(id=id)
+    try:
+        if not SelectedSubject.objects.get(student=request.user.student,subject=sub):
+            r=SelectedSubject(student=request.user.student,subject=sub)
+            r.save()
+    except:
+        if not Subject.objects.get(faculty=request.user.faculty,subject_name=sub.subject_name):
+            r=Subject(faculty=request.user.faculty,subject_name=sub.subject_name)
+            r.save()
 
     return redirect("profile")
 
 @login_required
+def newSubject(request):
+
+    if request.POST.get('name'):
+
+        r=Subject(faculty=request.user.faculty,subject_name=request.POST.get('name'))
+        r.save()
+
+    return redirect("profile")
+
+
+
+@login_required
 def myprofile(request):
-    return render(request,'login/profile.html',{'user':request.user})
+    return render(request,'login/profile.html',{'user':request.user,'subjects':Subject.objects.all()})
 
 def logout_view(request):
     logout(request)
@@ -178,4 +198,59 @@ class LeaveFormView(View):
             return redirect("profile")
 
         return render(request,self.template_name,{'form':form})
+
+
+class FacultyUpdate(UpdateView):
+    model = Faculty
+    fields = ['specialization','photo']
+    template_name = 'update_form.html'
+    success_url = reverse_lazy('profile')
+    def user_passes_test(self, request):
+        if request.user.is_authenticated():
+            self.object = self.get_object()
+            return self.object == request.user
+        return False
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.user_passes_test(request):
+            return redirect('profile')
+        return super(UserUpdate, self).dispatch(
+            request, *args, **kwargs)
+
+class StudentUpdate(UpdateView):
+    model = Student
+    fields = ['photo','DOB','branch','year','tenth_marks','inter_marks','current_marks']
+    template_name = 'update_form.html'
+    success_url = reverse_lazy('profile')
+    def user_passes_test(self, request):
+        if request.user.is_authenticated():
+            self.object = self.get_object()
+            return self.object == request.user
+        return False
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.user_passes_test(request):
+            return redirect('profile')
+        return super(UserUpdate, self).dispatch(
+            request, *args, **kwargs)
+
+
+
+class UserUpdate(UpdateView):
+    model = User
+    slug_field = 'username'
+    fields = ['first_name','last_name','email']
+    template_name = 'update_form.html'
+    success_url = reverse_lazy('profile')
+    def user_passes_test(self, request):
+        if request.user.is_authenticated():
+            self.object = self.get_object()
+            return self.object == request.user
+        return False
+
+    def dispatch(self, request, *args, **kwargs):
+        if not self.user_passes_test(request):
+            return redirect('profile')
+        return super(UserUpdate, self).dispatch(
+            request, *args, **kwargs)
 

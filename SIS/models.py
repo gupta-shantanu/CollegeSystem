@@ -59,7 +59,11 @@ class AttendanceRecord(models.Model):
     Date=models.DateField()
     present=models.BooleanField()
 
-class Subjects(models.Model):
+class Subject(models.Model):
     subject_name=models.CharField(max_length=100)
     faculty=models.ForeignKey(to=Faculty, related_name="teaches", null=True, blank=True)
+
+class SelectedSubject(models.Model):
+    subject=models.ForeignKey(to=Subject, related_name="studies", null=True, blank=True)
+    student=models.ForeignKey(to=Student, related_name="selected", null=True, blank=True)
     

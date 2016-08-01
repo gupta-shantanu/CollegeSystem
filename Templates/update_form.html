@@ -1,18 +1,16 @@
-{% extends 'base_visitor.html' %}
-{% block title %}Login{% endblock %}
-{% block login_active %}active{% endblock %}
-{% block body %}
+{% extends 'base.html' %}
+{% block title %}Update{% endblock %}
+{% block update_active %}active{% endblock %}
 
+
+{% block body %}
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-sm-12 col-md-6">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3 align="center">Account Login</h3>
-                    {% if form.errors %}
-                        <p class="error">Sorry, that's not a valid username or password</p>
-                    {% endif %}
+                    <h3>Change Profile Information</h3>
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
@@ -27,14 +25,11 @@
                     </form>
                 </div>
                 <div class="panel-footer">
-                    Don't have an account? <a href="{% url 'register' %}">Click here</a> to log in.
+                    <a href="{% url 'profile' %}">Go Back</a>.
                 </div>
             </div>
         </div>
-    
-
-		
-	</div>
+    </div>
 
 </div>
 

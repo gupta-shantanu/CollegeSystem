@@ -16,6 +16,10 @@ function overlay(n) {
 		<h4 class="modal-title">Add New Subject to Your Profile</h4>
 	  </div>
 	  <div class="modal-body">
+		{% for s in subjects %}
+               <a href="{% url 'selectSubject' s.id %}" ><button  class="btn btn-primary" id="subject_id">{{  s.subject_name }} by Prof.{{  s.faculty.user.first_name }}</button></a>
+        {% endfor %}
+		<hr>
 		<form action="{% url 'newSubject' %}" method="post">
 					{% csrf_token %}
 					<input type="text" name="name" id="name" value="" />
