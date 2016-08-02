@@ -46,10 +46,13 @@
 
                
                 {% if user.student %}
+                    <div class="well"> Logged in as a <strong>Student</strong></div>
                     {% include 'login/student.html' %}
                 {% elif user.faculty %}
+                    <div class="well"> Logged in as a <strong>Faculty</strong></div>
                     {% include 'login/faculty.html' %}
-                {% else %}
+                {% elif user.is_superuser %}
+                    <div class="well"> Logged in as a <strong>Administrator</strong></div>
                     {% include 'login/admin.html' %}
                 {% endif %}
 

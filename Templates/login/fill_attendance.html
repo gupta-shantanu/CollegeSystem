@@ -11,7 +11,7 @@
             <form action="{% url 'fillAttendance' subject %}" method="post">
             {% csrf_token %}
 
-			<label class="label label-primary">{{ date }}</label><input type="hidden" name="date" value={{ date }}/>
+			<div class="alert alert-warning">	{{ day.as_p }} </div>
 			<table class="table">
                         <thead>
                         <tr>
@@ -28,7 +28,8 @@
 				<tr>
 				    <td>{{ forloop.counter }}</td>
                     <td>
-                        <input type="checkbox" name="att_{{s.id}}" />
+                        <input type="checkbox" name="check_{{s.id}}" />
+						<input type='hidden' name="att_{{s.id}}" value="YES" />
                     </td>
                     <td>
 				 

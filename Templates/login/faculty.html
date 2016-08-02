@@ -53,13 +53,14 @@ function overlay(n) {
 	  <div class="modal-body">
 		<form id="attendance_confirm" action="" method="post">
 					{% csrf_token %}
-                    <label for="Date">Date:</label>
-					<input type="date" id="day" name="day">
+
 					<input type="hidden" name="subject_name" id="hidden_field" value="" />
                     <br>
-					<label class='label label-info' for="Message" id="msg">Subject:</label>
-                    <label class="label label-primary" id="subject_name">ll</label>
-					<label for="SubjectName" id="subject_name"></label>
+					<div class="alert alert-warning">
+					<label>Date: {{day}}</label><hr>
+					<label for="Subject">Subject: </label> <label for="SubjectName" id="subject_name"></label>
+					</div>
+					
                     <hr>
 					<button type="submit" class="btn btn-success btn-xs">
 					 <span class="glyphicon glyphicon-ok"></span>&nbsp; Proceed
@@ -87,6 +88,25 @@ function overlay(n) {
 							
 		</div>
 		
+  </div>
+
+<div class="panel-group">
+  <div class="panel panel-info">
+	<div class="panel-heading">View Records</div>
+		<div class="panel-body">
+                <table class="table">
+                    {% for s in  user.faculty.teaches.all%}
+                        <tr>
+                            <td>
+                            View Students record for  <a href="{% url 'viewAttendance' s.subject_name %}">{{ s.subject_name }}</a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                </table>
+           <a href="{% url 'studentlist' %}"> <button type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-th"></span>&nbsp; All Students</button></a>
+		</div>
+
   </div>
 
  <div class="panel panel-info">

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }}{% endblock %}
+{% load staticfiles %}
+
+{% block body %}
+<div class="container-fluid songs-container">
+	<div class="alert alert-warning">
+        Detailed Attendance Records <label class="label label-danger label-xl">{{ student.user.first_name }}</label><input type="hidden" name="subject" value={{ subject }}/></div>
+    </div>
+             {% for sub in student.selected.all %}
+                 <div class="panel panel-info">
+	                    <div class="panel-heading">Attendance in subject <strong> {{ sub.subject.subject_name }} by {{ sub.subject.faculty.user.first_name }} </strong></div>
+
+                <div class="panel-body">
+				<table class="table">
+                    <tbody>
+                        <tr>
+							<th>Dates</th>
+                            {% for p in sub.timesheet %}
+							<td>
+							{{p.Date}}
+							</td>
+							{% endfor %}
+                        </tr>
+						<tr>
+							<th>{{ sub.subject.subject_name }}</th>
+                            {% for p in sub.timesheet %}
+							<td>
+							{% if p.present  %} <img src="{% static 'check.gif' %}" > {% else %} <img src="{% static 'cross.png' %}">{% endif %}      
+							</td>
+							{% endfor %}
+                        </tr>
+                        <tr>
+                            <td>
+						        Present: {{ sub.present }}
+					        </td>
+					        <td>
+						        Absent: {{ sub.absent }}
+					        </td>
+					        <td>
+						        Percetage: {{ sub.percentage }}
+
+					        </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                </div>
+			{% endfor %}
+
+
+
+			
+			
+
+  </div>
+ </div>
+
+{% endblock %}

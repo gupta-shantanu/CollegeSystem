@@ -22,8 +22,16 @@
                         <tr>
 							<th>S.no.</th>
                             <th>Name</th>
-                            <th>Branch</th>
-                            <th>{{ stu.photo.url  }}</th>
+                            <th>
+                                {% if stu.DOB %}
+                                    Branch
+                                 {% else %}
+                                    Specialization
+                                {% endif %}
+                            </th>
+                            {% if stu.DOB %}
+                            <th>Attendance Records</th>
+                            {% endif %}
                         </tr>
                         </thead>
                         <tbody>
@@ -36,20 +44,17 @@
                                 </td>
                                 <td> <a target="_blank" href="{% url 'detail' stu.user.username %}"> {{ stu.user.first_name }} {{ stu.user.last_name }} </a> </td>
                                 <td>
+                                 {% if stu.DOB %}
                                    {{ stu.branch }}
+                                     {% else %}
+                                    {{ stu.specialization }}
+                                 {% endif %}
                                 </td>
+                            {% if stu.DOB %}
                                 <td>
-                                    {{ stu.attendance }}  {% if stu.attendance > 60  %} <img src="{% static 'cross.png' %}" > {% else %} <img src="{% static 'check.gif' %}">{% endif %}                         </td>
+                                    <a href="{% url 'publicTimesheet' stu.id %}" ><button  class="btn btn-primary" id="subject_id">Attendance Record of {{  stu.user.first_name }}</button></a>
                                 </td>
-								<td>
-                                    <form action="{% url 'index' %}" method="post" style="display: inline;">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="song_id" value="{{ song.id }}" />
-                                        <button type="submit" class="btn btn-danger btn-xs">
-                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
-                                        </button>
-                                    </form>
-                                </td>
+                            {% endif %}
                             </tr>
                         {% endfor %}
                         </tbody>

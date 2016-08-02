@@ -17,9 +17,9 @@ class Student(models.Model):
     tenth_marks=models.FloatField(default=0)
     inter_marks=models.FloatField(default=0)
     current_marks=models.FloatField(default=0)
-    branch = models.IntegerField(
-        choices=((1,'Computer Science & Engineering'),(2,'Electrical Engineering'),(3,'Civil Engineering'),(4,'Others')),
-        default=1,
+    branch = models.CharField(max_length=100,
+        choices=(('Computer Science & Engineering','Computer Science & Engineering'),('Electrical Engineering','Electrical Engineering'),('Civil Engineering','Civil Engineering'),('Others','Others')),
+        default='Computer Science & Engineering',
         )
 
     year = models.IntegerField(
@@ -77,8 +77,11 @@ class SelectedSubject(models.Model):
         return a.filter(present=False).count()
     def eligiblity(self):
         return self.percentage()>60
+    def timesheet(self):
+        return self.attendance.all().order_by('Date')
 
     
+
 
 class AttendanceRecord(models.Model):
     selected_subject=models.ForeignKey(to=SelectedSubject, related_name="attendance", null=True, blank=True)

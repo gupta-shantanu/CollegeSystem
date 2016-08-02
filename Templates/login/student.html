@@ -45,7 +45,7 @@ function overlay(n) {
   </div>
 
  <div class="panel panel-info">
-	<div class="panel-heading">My Attendance</div>
+	<div class="panel-heading">My Attendance For complete timesheet click <a href="{% url 'timesheet' %}" >here</a></div>
 	<div class="panel-body">
 		{% for s in  user.student.selected.all%}
 			<button class='btn btn-warning btn-xs' data-toggle="collapse" data-target="#x{{ forloop.counter }}"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> My Attendance in {{s.subject.subject_name}}</button><br>

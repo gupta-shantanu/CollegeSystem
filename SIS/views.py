@@ -8,8 +8,15 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView,View
 from django.views.generic import DetailView,ListView
 from django.db.models import Q
 from .models import *
+import datetime
+from django.forms import DateField,SelectDateWidget
+from django import forms
 
 from .forms import StudentForm, FacultyForm, UserForm, LeaveRequestForm
+class dates(forms.Form):
+        date = DateField(widget=
+        SelectDateWidget(empty_label=("Choose Year", "Choose Month", "Choose Day")),
+        initial=datetime.date.today)
 
 def home(request):
     return render(request,'home.html')
@@ -17,7 +24,11 @@ def home(request):
 def loginFirst(request):
     return redirect("login")
 
+def Timesheet(request):
+    return render(request,'login/timesheet.html',{'student':request.user.student})
 
+def PublicTimesheet(request,id):
+    return render(request,'login/timesheet.html',{'student':Student.objects.get(id=id)})
 def requestverdict(request):
 
     if request.POST.get('accept'):
@@ -43,19 +54,20 @@ def requestverdict(request):
 def fillAttendance(request,subject):
 
         if request.POST.get('submit'):
+            dt=datetime.date(year=int(request.POST.get('date_year')),month=int(request.POST.get('date_month')),day=int(request.POST.get('date_day')))
             for p in request.POST.keys():
                 if p[0:4]=='att_':
                     selsub=SelectedSubject.objects.get(id=p[4:])
-                    r=AttendanceRecord(selected_subject=selsub,present=request.POST[p])
+                    pr= True if(request.POST.get('check_'+p[4:])) else False
+                    r=AttendanceRecord(selected_subject=selsub,present=pr,Date=dt)
                     r.save()
             return redirect("profile")
         else:
             sub=Subject.objects.get(subject_name=subject,faculty=request.user.faculty)
             selsub=SelectedSubject.objects.filter(subject=sub)
-            return render(request,'login/fill_attendance.html',{'selected_subject':selsub,'subject':subject})
+            return render(request,'login/fill_attendance.html',{'selected_subject':selsub,'subject':subject,'day':dates()})
 
-class pack:
-    pass
+
 def viewAttendance(request,subject):
     try:
         sub=Subject.objects.get(subject_name=subject,faculty=request.user.faculty)
@@ -87,9 +99,11 @@ def newSubject(request):
 
 
 
+
 @login_required
 def myprofile(request):
-    return render(request,'login/profile.html',{'user':request.user,'subjects':Subject.objects.all()})
+
+    return render(request,'login/profile.html',{'user':request.user,'subjects':Subject.objects.all(),'day':datetime.date.today})
 
 def logout_view(request):
     logout(request)
