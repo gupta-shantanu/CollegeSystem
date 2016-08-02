@@ -11,7 +11,9 @@
                 <div class="panel-body">
                     <h3 align="center">Account Login</h3>
                     {% if form.errors %}
-                        <p class="error">Sorry, that's not a valid username or password</p>
+                        <div class="alert alert-warning">
+			                <strong>Sorry!</strong> that's not a valid username or password
+		                </div>
                     {% endif %}
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>

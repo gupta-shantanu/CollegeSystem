@@ -4,7 +4,7 @@ function overlay(n) {
 	field = document.getElementById("hidden_field");
 	field.value=n;
 	document.getElementById("subject_name").innerHTML=n;
-
+	document.getElementById("attendance_confirm").action="attendance/"+n;
 }
 </script>
 <div id="subject" class="modal fade" role="dialog">
@@ -51,11 +51,11 @@ function overlay(n) {
 		<h4 class="modal-title">Proceed to take Attendance....</h4>
 	  </div>
 	  <div class="modal-body">
-		<form action="{% url 'fillAttendance' %}" method="post">
+		<form id="attendance_confirm" action="" method="post">
 					{% csrf_token %}
                     <label for="Date">Date:</label>
 					<input type="date" id="day" name="day">
-					<input type="hidden" name="request_id" id="hidden_field" value="" />
+					<input type="hidden" name="subject_name" id="hidden_field" value="" />
                     <br>
 					<label class='label label-info' for="Message" id="msg">Subject:</label>
                     <label class="label label-primary" id="subject_name">ll</label>

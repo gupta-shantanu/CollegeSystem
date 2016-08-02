@@ -39,6 +39,31 @@ def requestverdict(request):
 
     return redirect("RequestList")
 
+@login_required
+def fillAttendance(request,subject):
+
+        if request.POST.get('submit'):
+            for p in request.POST.keys():
+                if p[0:4]=='att_':
+                    selsub=SelectedSubject.objects.get(id=p[4:])
+                    r=AttendanceRecord(selected_subject=selsub,present=request.POST[p])
+                    r.save()
+            return redirect("profile")
+        else:
+            sub=Subject.objects.get(subject_name=subject,faculty=request.user.faculty)
+            selsub=SelectedSubject.objects.filter(subject=sub)
+            return render(request,'login/fill_attendance.html',{'selected_subject':selsub,'subject':subject})
+
+class pack:
+    pass
+def viewAttendance(request,subject):
+    try:
+        sub=Subject.objects.get(subject_name=subject,faculty=request.user.faculty)
+    except:
+        return redirect("profile")
+    return render(request,'login/view_attendance.html',{'list':sub.studies.all(),'subject':subject})
+
+
 
 @login_required
 def newSelectedSubject(request,id):
@@ -249,4 +274,6 @@ class UserUpdate(UpdateView):
             return redirect('profile')
         return super(UserUpdate, self).dispatch(
             request, *args, **kwargs)
+
+
 

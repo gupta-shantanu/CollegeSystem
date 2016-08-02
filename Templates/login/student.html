@@ -1,10 +1,4 @@
-    <div class="progress-bar progress-bar-success" role="progressbar" style="width:70%">
-      Free Space
-    </div>
-    <div class="progress-bar progress-bar-warning" role="progressbar" style="width:20%">
-      Warning
-    </div>
-	<script>
+<script>
 function overlay(n) {
 
 	field = document.getElementById("hidden_field");
@@ -33,37 +27,7 @@ function overlay(n) {
 
   </div>
 </div>
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-	<div class="modal-content">
-	  <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h4 class="modal-title">Proceed to take Attendance....</h4>
-	  </div>
-	  <div class="modal-body">
-		<form action="{% url 'fillAttendance' %}" method="post">
-					{% csrf_token %}
-                    <label for="Date">Date:</label>
-					<input type="date" id="day" name="day">
-					<input type="hidden" name="request_id" id="hidden_field" value="" />
-                    <br>
-					<label class='label label-info' for="Message" id="msg">Subject:</label>
-                    <label class="label label-primary" id="subject_name">ll</label>
-					<label for="SubjectName" id="subject_name"></label>
-                    <hr>
-					<button type="submit" class="btn btn-success btn-xs">
-					 <span class="glyphicon glyphicon-ok"></span>&nbsp; Proceed
-					</button>
-		</form>
-	  </div>
-	  <div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	  </div>
-	</div>
-
-  </div>
-</div>
+ 
 <div class="panel-group">
   <div class="panel panel-info">
 	<div class="panel-heading">Your Subjects <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#subject"><span class="glyphicon glyphicon-plus"></span>&nbsp; Add</button></div>
@@ -71,7 +35,7 @@ function overlay(n) {
                 <div class="list-group">
 
                     {% for s in  user.student.selected.all%}
-									  <a href="#" class="list-group-item">{{ s.subject.subject_name }}</a>
+									  <a href="#" class="list-group-item">{{ s.subject.subject_name }} by Lecturer {{ s.subject.faculty.user.first_name }}</a> 
                     {% endfor %}
                 </div>
 							
@@ -81,45 +45,87 @@ function overlay(n) {
   </div>
 
  <div class="panel panel-info">
-	<div class="panel-heading">Fill Todays Attendance</div>
+	<div class="panel-heading">My Attendance</div>
 	<div class="panel-body">
-	{% if user.faculty.teaches.all %}
-	{% for s in  user.faculty.teaches.all%}
-	<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" onclick="overlay('{{ s.subject_name }}')"><span class="glyphicon glyphicon-th"></span>&nbsp; {{ s.subject_name }}</button>
-    {% endfor %}
-	{%else%}
-	You have to add atleast one subjects to fill attendance...
-	{% endif %}
-	</div>
+		{% for s in  user.student.selected.all%}
+			<button class='btn btn-warning btn-xs' data-toggle="collapse" data-target="#x{{ forloop.counter }}"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> My Attendance in {{s.subject.subject_name}}</button><br>
+			<hr>
+			<div id="x{{ forloop.counter }}" class="collapse">
+				<div class="well">Your attendance in {{ s.subject.subject_name }} by Prof. {{ s.subject.faculty.user.first_name }}</div>
+				<table class="table">
+                        <thead>
+                        <tr>
+                            <th>Subject Name</th>
+							<th>Faculty</th>
+
+							<th>Present</th>
+							<th>Absent</th>
+							<th>Percentage</th>
+							
+                        </tr>
+                        </thead>
+            <tbody>
+				<tr>
+					<td>
+						{{ s.subject.subject_name }}
+					</td>
+					<td>
+						{{ s.subject.faculty.user.first_name }}
+					</td>
+					<td>
+						{{ s.present }}
+					</td>
+					<td>
+						{{ s.absent }}
+					</td>
+					<td>
+						{{ s.percentage }}
+					</td>
+					
+
+				</tr>
+			</tbody>
+			</table>
+			{% if s.percentage = 'N.A' %}
+				<div class="alert alert-info">
+					<strong>New Subject!</strong> No class have been held since you joined this course..
+				</div>
+			{% elif s.eligibilty %}
+				<div class="alert alert-warning">
+					<strong>Warning!</strong> With you current attendance trend, you might not bbe able to appear in exams!
+				</div>
+			{% else %}
+				<div class="alert alert-success">
+					<strong>Nice Work!</strong> If you maintain this attendance, you are eligible to appear in exam!
+				</div>
+			{% endif %}
+			</div>
+		{% endfor %}
+		
   </div>
   <div class="panel panel-info">
 	<div class="panel-heading">
-	Leaves
-	<a href="{% url 'newLeave' %}" class="btn btn-info btn-xs" role="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Apply</a>
-	
-	<button class='btn btn-success btn-xs' data-toggle="collapse" data-target="#history"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Leave Request Status</button><br>
+	Academic Records
 	</div>
 	<div class="panel-body">
-	<h3> Leave Records </h3>	
-
 	 
 	<table class="table">
 		<thead>
 			<th>Type</th>
-			<th>Remaining</th>
+			<th>Percentage</th>
 		</thead>
 		<tbody>
 			<tr>
-				<td>Earned Leaves</td>
-				<td>{{ user.faculty.leaverecord.earned_leave }}</td>
+				<td>Current Percentage</td>
+				<td>{{ user.student.current_marks }}</td>
 			</tr>
 			<tr>
-				<td>Sick Leaves</td>
-				<td>{{ user.faculty.leaverecord.sick_leave }}</td>
+				<td>Class 12th Percentage </td>
+				<td>{{ user.student.inter_marks }}</td>
 			</tr>
 			<tr>
-				<td>Casual Leaves</td>
-				<td>{{ user.faculty.leaverecord.casual_leave }}</td>
+				<td>Class 10th Percentage </td>
+				<td>{{ user.student.tenth_marks }}</td>
 			</tr>
 		</tbody>
 

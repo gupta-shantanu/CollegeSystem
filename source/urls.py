@@ -28,8 +28,9 @@ urlpatterns = [
     url(r'^selectsubject/(?P<id>[\-\d]+)$', newSelectedSubject, name='selectSubject'),
     url(r'^response$', requestverdict, name='request_verdict'),
     url(r'^RequestList$', RequestList.as_view(), name='RequestList'),
+    url(r'^attendance/(?P<subject>[\-\w]+)$', fillAttendance, name='fillAttendance'),
+    url(r'^attendance/list/(?P<subject>[\-\w]+)$', viewAttendance , name='viewAttedance'),
     url(r'^(?P<slug>[a-z0-9]+)$', Detail.as_view(), name='detail'),
-    url(r'^attendance$', Detail.as_view(), name='fillAttendance'),
 
 ]
 

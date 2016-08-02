@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }}{% endblock %}
+{% load staticfiles %}
+
+{% block body %}
+<div class="container-fluid songs-container">
+<div class="panel panel-info">
+	<div class="panel-heading">Fill Todays Attendance <label class="label label-danger label-xl">{{ subject }}</label><input type="hidden" name="subject" value={{ subject }}/></div>
+
+		<div class="panel-body">
+            <form action="{% url 'fillAttendance' subject %}" method="post">
+            {% csrf_token %}
+
+			<label class="label label-primary">{{ date }}</label><input type="hidden" name="date" value={{ date }}/>
+			<table class="table">
+                        <thead>
+                        <tr>
+							<th>S.no.</th>
+                            <th>Attendance</th>
+                            <th>Student Name</th>
+                            <th>Student Appearance</th>
+                        </tr>
+                        </thead>
+            <tbody>
+			
+			
+			{% for s in selected_subject %}
+				<tr>
+				    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <input type="checkbox" name="att_{{s.id}}" />
+                    </td>
+                    <td>
+				 
+					    <label>{{s.student.user.first_name }} {{ s.student.user.last_name}}</label>
+				        
+				    </td>
+                    <td>
+                        {%if s.student.photo %} <img src="{{ s.student.photo.url }}" class="img-thumbnail" width="50px" height="50px"> {% endif%}
+                    </td>
+
+				</tr>
+			{% endfor %}
+			</tbody>
+			</table>
+            <button type="submit" name="submit" value="{{ subject }}" class="btn btn-success">Submit Attendance</button>
+            </form>
+		</div>
+  </div>
+ </div>
+
+{% endblock %}

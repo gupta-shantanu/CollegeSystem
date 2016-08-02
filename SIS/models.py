@@ -62,9 +62,25 @@ class Subject(models.Model):
 class SelectedSubject(models.Model):
     subject=models.ForeignKey(to=Subject, related_name="studies", null=True, blank=True)
     student=models.ForeignKey(to=Student, related_name="selected", null=True, blank=True)
+
+    def percentage(self):
+        p,a=self.present(),self.absent()
+        if p+a!=0:
+            return str(round(p/(p+a)*100,2))+"%"
+        else:
+            return 'N.A'
+    def present(self):
+        a=self.attendance.all()
+        return a.filter(present=True).count()
+    def absent(self):
+        a=self.attendance.all()
+        return a.filter(present=False).count()
+    def eligiblity(self):
+        return self.percentage()>60
+
     
 
 class AttendanceRecord(models.Model):
     selected_subject=models.ForeignKey(to=SelectedSubject, related_name="attendance", null=True, blank=True)
-    Date=models.DateField()
+    Date=models.DateField(null=True)
     present=models.BooleanField()
