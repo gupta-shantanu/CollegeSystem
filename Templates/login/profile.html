@@ -3,7 +3,6 @@
 {% load staticfiles %}
 
 {% block body %}
-    <link rel="stylesheet" href="{% static 'js/chart.css' %}">
     <div class="container-fluid songs-container">
 
         <div class="row">
@@ -40,6 +39,9 @@
                             <small>{{ user.email }}</small>
                         </div>
                     {% endif %}
+					{% if user.faculty %}
+					<h3> Specialization  <strong>{{ user.faculty.specialization }} </strong>
+					{% endif %}
                 </div>
             </div>
             <div class="col-sm-8 col-md-9">

@@ -1,0 +1,40 @@
+{% if not request.user.student %}
+    <div class="alert alert-warning">
+    View Attendance record for  {{  user.first_name }} {{  user.last_name }} click <a href="{% url 'publicTimesheet' user.student.id %}">here</a>
+    (Option available only to faculty and admin)
+    </div>
+{% endif %}
+
+<div class="panel panel-info">
+	<div class="panel-heading">
+	Academic Records
+	</div>
+	<div class="panel-body">
+
+	<table class="table">
+		<thead>
+			<th>Type</th>
+			<th>Percentage</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Current Percentage</td>
+				<td>{{ user.student.current_marks }}</td>
+			</tr>
+			<tr>
+				<td>Class 12th Percentage </td>
+				<td>{{ user.student.inter_marks }}</td>
+			</tr>
+			<tr>
+				<td>Class 10th Percentage </td>
+				<td>{{ user.student.tenth_marks }}</td>
+			</tr>
+		</tbody>
+
+	</table>
+
+
+
+
+
+  </div>

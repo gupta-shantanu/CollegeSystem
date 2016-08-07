@@ -4,14 +4,10 @@
 {% block body %}
       <div class="col-sm-8 col-md-9">
 
-            <ul class="nav nav-pills" style="margin-bottom: 10px;">
-                <li role="presentation" class="active"><a href="{% url 'index' %}">View All</a></li>
-                <li role="presentation"><a href="{% url 'index' %}">Add New Song</a></li>
-            </ul>
 			
 
             <div class="panel panel-default">
-                    <h3>All Students</h3>
+                    <h3>Search Results</h3>
 						
                     {% if error_message %}
                         <p><strong>{{ error_message }}</strong></p>
@@ -35,7 +31,7 @@
                                     {% if ob.student  %}
                                     {%if ob.student.photo %} <img src="{{ ob.student.photo.url }}" class="img-thumbnail" width="50px" height="50px"> {% endif%}
                                     {% else %}
-                                    {%if ob.faculty.photo %} <img src="{{ ob.student.photo.url }}" class="img-thumbnail" width="50px" height="50px"> {% endif%}
+                                    {%if ob.faculty.photo %} <img src="{{ ob.faculty.photo.url }}" class="img-thumbnail" width="50px" height="50px"> {% endif%}
                                     {% endif %}
                                 </td>
                                 <td> <a target="_blank" href="{% url 'detail' ob.username %}"> {{ ob.first_name }} {{ ob.last_name }} </a> </td>

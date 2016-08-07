@@ -1,0 +1,103 @@
+<div class="panel-group">
+  <div class="panel panel-info">
+	<div class="panel-heading">{{ user.first_name }} Subjects</div>
+		<div class="panel-body">
+                <div class="list-group">
+
+                    {% for s in  user.faculty.teaches.all%}
+									  <a href="#" class="list-group-item">{{ s.subject_name }}</a>
+                    {% endfor %}
+                </div>
+
+
+		</div>
+  </div>
+ <div class="panel panel-info">
+	<div class="panel-heading">
+	Leave Record
+    </div>
+	<div class="panel-body">
+    {% if request.user.faculty %}
+		<div id="history" class="collapse">
+	                    <table class="table">
+                        <thead>
+                        <tr>
+							<th>S.no.</th>
+                            <th>Start Date</th>
+                            <th>Start End</th>
+							<th>Days</th>
+							<th>Your Reason</th>
+							<th>Response</th>
+							<th>Verdict</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for r in user.faculty.request.all %}
+
+                            <tr>
+								<td>
+                                   {{ forloop.counter }}
+                                </td>
+                                <td>
+                                   {{ r.start }}
+                                </td>
+                                <td>
+                                    {{ r.end }}
+                                </td>
+							    <td>
+                                    {{ r.days }}
+                                </td>
+								<td>
+									{{ r.reason }}
+								</td>
+								<td>
+									{%if r.status == 3 %}
+										<span class="label label-primary">Pending</span>
+									{%elif r.status == 1 %}
+										<span class="label label-success">Accepted</span>
+									{%elif r.status == 2 %}
+										<span class="label label-info">Rejected</span>
+									{% endif %}
+
+                                </td>
+								<td>
+									{{ r.verdict }}
+								</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+					</table>
+	</div>
+
+	<table class="table">
+		<thead>
+			<th>Type</th>
+			<th>Remaining</th>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Earned Leaves</td>
+				<td>{{ user.faculty.leaverecord.earned_leave }}</td>
+			</tr>
+			<tr>
+				<td>Sick Leaves</td>
+				<td>{{ user.faculty.leaverecord.sick_leave }}</td>
+			</tr>
+			<tr>
+				<td>Casual Leaves</td>
+				<td>{{ user.faculty.leaverecord.casual_leave }}</td>
+			</tr>
+		</tbody>
+
+	</table>
+{% else %}
+        <div class="alert alert-warning">
+    <strong>Sorry!</strong> you can't view this info.
+    </div>
+    {% endif %}
+
+
+
+
+  </div>

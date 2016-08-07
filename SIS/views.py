@@ -21,6 +21,9 @@ class dates(forms.Form):
 def home(request):
     return render(request,'home.html')
 
+def homepage(request):
+    return render(request,'login/home.html')
+
 def loginFirst(request):
     return redirect("login")
 
@@ -237,19 +240,20 @@ class LeaveFormView(View):
 
 class FacultyUpdate(UpdateView):
     model = Faculty
+    
     fields = ['specialization','photo']
     template_name = 'update_form.html'
     success_url = reverse_lazy('profile')
     def user_passes_test(self, request):
         if request.user.is_authenticated():
             self.object = self.get_object()
-            return self.object == request.user
+            return self.object == request.user.faculty
         return False
 
     def dispatch(self, request, *args, **kwargs):
         if not self.user_passes_test(request):
             return redirect('profile')
-        return super(UserUpdate, self).dispatch(
+        return super(FacultyUpdate, self).dispatch(
             request, *args, **kwargs)
 
 class StudentUpdate(UpdateView):
@@ -260,13 +264,13 @@ class StudentUpdate(UpdateView):
     def user_passes_test(self, request):
         if request.user.is_authenticated():
             self.object = self.get_object()
-            return self.object == request.user
+            return self.object == request.user.student
         return False
 
     def dispatch(self, request, *args, **kwargs):
         if not self.user_passes_test(request):
             return redirect('profile')
-        return super(UserUpdate, self).dispatch(
+        return super(StudentUpdate, self).dispatch(
             request, *args, **kwargs)
 
 

@@ -92,7 +92,7 @@ function overlay(n) {
 				</div>
 			{% elif s.eligibilty %}
 				<div class="alert alert-warning">
-					<strong>Warning!</strong> With you current attendance trend, you might not bbe able to appear in exams!
+					<strong>Warning!</strong> With your current attendance trend, you might not be able to appear in exams!
 				</div>
 			{% else %}
 				<div class="alert alert-success">
@@ -131,60 +131,8 @@ function overlay(n) {
 
 	</table>
 
-	
-	<div id="history" class="collapse">
-	                    <table class="table">
-                        <thead>
-                        <tr>
-							<th>S.no.</th>
-                            <th>Start Date</th>
-                            <th>Start End</th>
-							<th>Days</th>
-							<th>Your Reason</th>
-							<th>Response</th>
-							<th>Verdict</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-						
-                        {% for r in user.faculty.request.all %}
-						
-                            <tr>
-								<td>
-                                   {{ forloop.counter }}
-                                </td>
-                                <td>
-                                   {{ r.start }}
-                                </td>
-                                <td>
-                                    {{ r.end }}
-                                </td>
-							    <td>
-                                    {{ r.days }}
-                                </td>
-								<td>
-									{{ r.reason }}
-								</td>
-								<td>
-									{%if r.status == 3 %}
-										<span class="label label-primary">Pending</span>
-									{%elif r.status == 1 %}
-										<span class="label label-success">Accepted</span>
-									{%elif r.status == 2 %}
-										<span class="label label-info">Rejected</span>
-									{% endif %}
-									
-                                </td>
-								<td>
-									{{ r.verdict }}
-								</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-					</table>
-	</div>
+
+
 
 
   </div>
-  
-</div>

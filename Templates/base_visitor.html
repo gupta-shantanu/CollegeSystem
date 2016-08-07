@@ -22,14 +22,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'index' %}">BIET</a>
+            <a class="navbar-brand" href="{% url 'home' %}">Bundelkhand Institute</a>
         </div>
 
         <!-- Items -->
         <div class="collapse navbar-collapse" id="topNavBar">
             <ul class="nav navbar-nav">
-                <li class="{% block register_active %}{% endblock %}"><a href="{% url 'register' %}">Register</a></li>
-                <li class="{% block login_active %}{% endblock %}"><a href="{% url 'login' %}">Log In</a></li>
+				<li class="{% block home_active %}{% endblock %}"><a href="{% url 'home' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; Home</a></li>
+                <li class="{% block register_active %}{% endblock %}"><a href="{% url 'register' %}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Register</a></li>
+                <li class="{% block login_active %}{% endblock %}"><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Login</a></li>
             </ul>
         </div>
 

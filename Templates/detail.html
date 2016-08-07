@@ -41,12 +41,22 @@
                  <small>{{ user.email }}</small>
              </div>
 			  {% endif %}
+                {% if user.faculty %}
+					<h3> Specialization:  <strong>{{ user.faculty.specialization }} </strong>
+				{% endif %}
             </div>
         </div>
 		 <div class="col-sm-8 col-md-9">
 		 
-        <hr>
-
+                {% if user.student %}
+                    <div class="well"> <strong>Student</strong></div>
+                    {% include 'login/student_detail.html' %}
+                {% elif user.faculty %}
+                    <div class="well"><strong>Faculty</strong></div>
+                    {% include 'login/faculty_detail.html' %}
+                {% elif user.is_superuser %}
+                    <div class="well"> <strong>Administrator</strong></div>
+                {% endif %}
 
         </div>
 
