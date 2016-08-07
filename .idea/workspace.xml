@@ -28,21 +28,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="base.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="1190">
-              <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="10" selection-end-column="117" />
+            <state vertical-scroll-proportion="0.29876977" vertical-offset="0" max-vertical-offset="1190">
+              <caret line="10" column="45" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base_visitor.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="base_visitor.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Templates/base_visitor.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.32864675" vertical-offset="0" max-vertical-offset="799">
-              <caret line="11" column="98" selection-start-line="11" selection-start-column="98" selection-end-line="11" selection-end-column="98" />
+            <state vertical-scroll-proportion="-6.5384617" vertical-offset="0" max-vertical-offset="799">
+              <caret line="10" column="45" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -76,8 +76,8 @@
         <option value="$PROJECT_DIR$/Templates/login/student_detail.html" />
         <option value="$PROJECT_DIR$/Templates/login/faculty_detail.html" />
         <option value="$PROJECT_DIR$/Templates/detail.html" />
-        <option value="$PROJECT_DIR$/Templates/base.html" />
         <option value="$PROJECT_DIR$/Templates/base_visitor.html" />
+        <option value="$PROJECT_DIR$/Templates/base.html" />
       </list>
     </option>
   </component>
@@ -808,18 +808,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Templates/base.html">
+    <entry file="file://$PROJECT_DIR$/Templates/base_visitor.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.230769" vertical-offset="0" max-vertical-offset="1190">
-          <caret line="8" column="5" selection-start-line="8" selection-start-column="5" selection-end-line="10" selection-end-column="117" />
+        <state vertical-scroll-proportion="-6.5384617" vertical-offset="0" max-vertical-offset="799">
+          <caret line="10" column="45" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Templates/base_visitor.html">
+    <entry file="file://$PROJECT_DIR$/Templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32864675" vertical-offset="0" max-vertical-offset="799">
-          <caret line="11" column="98" selection-start-line="11" selection-start-column="98" selection-end-line="11" selection-end-column="98" />
+        <state vertical-scroll-proportion="0.29876977" vertical-offset="0" max-vertical-offset="1190">
+          <caret line="10" column="45" selection-start-line="10" selection-start-column="45" selection-end-line="10" selection-end-column="45" />
           <folding />
         </state>
       </provider>
