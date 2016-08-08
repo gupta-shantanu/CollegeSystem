@@ -39,11 +39,12 @@
                  </a>
                  <h1>{{ user.first_name }} <small>{{ user.last_name  }}</small></h1>
                  <small>{{ user.email }}</small>
+             {% if user.faculty %}
+					        <h4> Specializes in  <strong>{{ user.faculty.specialization }} </strong></h4>
+             {% endif %}
              </div>
 			  {% endif %}
-                {% if user.faculty %}
-					<h3> Specialization:  <strong>{{ user.faculty.specialization }} </strong>
-				{% endif %}
+
             </div>
         </div>
 		 <div class="col-sm-8 col-md-9">

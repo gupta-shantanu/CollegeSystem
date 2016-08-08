@@ -19,10 +19,12 @@ function overlay(n) {
 	    <div class="alert alert-warning">
 			<strong>Note!</strong> You can also duplicate one of the following subjects taught by other professors too...
 		</div>
+          <div class="list-group">
 
-		{% for s in subjects %}
-               <a href="{% url 'selectSubject' s.id %}" ><button  class="btn btn-primary" id="subject_id">{{  s.subject_name }} by Prof.{{  s.faculty.user.first_name }}</button></a>
-        {% endfor %}
+                    {% for s in subjects %}
+									  <a href="{% url 'selectSubject' s.id %}" class="list-group-item">{{  s.subject_name }} by Prof.{{  s.faculty.user.first_name }}</a>
+                    {% endfor %}
+                </div>
 		<hr>
 		<div class="alert alert-warning">
 			<strong>OR...</strong> Add a new subject
@@ -117,7 +119,7 @@ function overlay(n) {
 	<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModal" onclick="overlay('{{ s.subject_name }}')"><span class="glyphicon glyphicon-th"></span>&nbsp; {{ s.subject_name }}</button>
     {% endfor %}
 	{%else%}
-	You have to add atleast one subjects to fill attendance...
+	You have to add at least one subjects to fill attendance...
 	{% endif %}
 	</div>
   </div>
@@ -169,7 +171,7 @@ function overlay(n) {
 									{%elif r.status == 1 %}
 										<span class="label label-success">Accepted</span>
 									{%elif r.status == 2 %}
-										<span class="label label-info">Rejected</span>
+										<span class="label label-danger">Rejected</span>
 									{% endif %}
 									
                                 </td>

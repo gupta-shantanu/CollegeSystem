@@ -16,9 +16,13 @@ function overlay(n) {
 		<h4 class="modal-title">Add New Subject to Your Profile</h4>
 	  </div>
 	  <div class="modal-body">
-          {% for s in subjects %}
-              <a href="{% url 'selectSubject' s.id %}" ><button  class="btn btn-primary btn-xs" id="subject_id">{{  s.subject_name }} by Prof.{{  s.faculty.user.first_name }}</button></a>
-          {% endfor %}
+         <div class="list-group">
+
+                    {% for s in subjects %}
+									  <a href="{% url 'selectSubject' s.id %}" class="list-group-item">{{  s.subject_name }} by Prof.{{  s.faculty.user.first_name }}</a>
+                    {% endfor %}
+         </div>
+
 	  </div>
 	  <div class="modal-footer">
 		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -86,17 +90,17 @@ function overlay(n) {
 				</tr>
 			</tbody>
 			</table>
-			{% if s.percentage = 'N.A' %}
+			{% if s.percentage == 'N.A' %}
 				<div class="alert alert-info">
 					<strong>New Subject!</strong> No class have been held since you joined this course..
 				</div>
-			{% elif s.eligibilty %}
-				<div class="alert alert-warning">
-					<strong>Warning!</strong> With your current attendance trend, you might not be able to appear in exams!
+			{% elif s.eligiblity %}
+                <div class="alert alert-success">
+					<strong>Nice Work!</strong> If you maintain this attendance, you are eligible to appear in exam!
 				</div>
 			{% else %}
-				<div class="alert alert-success">
-					<strong>Nice Work!</strong> If you maintain this attendance, you are eligible to appear in exam!
+				<div class="alert alert-warning">
+					<strong>Warning!</strong> {{ s.eligiblity }} With your current attendance trend, you might not be able to appear in exams!
 				</div>
 			{% endif %}
 			</div>

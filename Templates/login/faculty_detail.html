@@ -17,7 +17,7 @@
 	Leave Record
     </div>
 	<div class="panel-body">
-    {% if request.user.faculty %}
+    {% if request.user.faculty or request.user.is_superuser %}
 		<div id="history" class="collapse">
 	                    <table class="table">
                         <thead>

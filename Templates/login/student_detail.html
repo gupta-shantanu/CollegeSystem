@@ -1,9 +1,24 @@
 {% if not request.user.student %}
-    <div class="alert alert-warning">
-    View Attendance record for  {{  user.first_name }} {{  user.last_name }} click <a href="{% url 'publicTimesheet' user.student.id %}">here</a>
+    <div class="alert alert-warning" xmlns="http://www.w3.org/1999/html">
+    <strong>View Attendance record for</strong>  {{  user.first_name }} {{  user.last_name }} click <a href="{% url 'publicTimesheet' user.student.id %}">here</a>
     (Option available only to faculty and admin)
     </div>
 {% endif %}
+
+<div class="panel-group">
+  <div class="panel panel-info">
+	<div class="panel-heading">Subjects studied by <strong>{{  user.first_name }}</strong></div>
+		<div class="panel-body">
+                <div class="list-group">
+
+                    {% for s in  user.student.selected.all%}
+									  <a href="#" class="list-group-item">{{ s.subject.subject_name }} by Lecturer {{ s.subject.faculty.user.first_name }}</a>
+                    {% endfor %}
+                </div>
+
+
+		</div>
+  </div>
 
 <div class="panel panel-info">
 	<div class="panel-heading">

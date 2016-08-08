@@ -27,11 +27,15 @@ def homepage(request):
 def loginFirst(request):
     return redirect("login")
 
+@login_required
 def Timesheet(request):
     return render(request,'login/timesheet.html',{'student':request.user.student})
 
+@login_required
 def PublicTimesheet(request,id):
     return render(request,'login/timesheet.html',{'student':Student.objects.get(id=id)})
+
+@login_required
 def requestverdict(request):
 
     if request.POST.get('accept'):
@@ -70,7 +74,7 @@ def fillAttendance(request,subject):
             selsub=SelectedSubject.objects.filter(subject=sub)
             return render(request,'login/fill_attendance.html',{'selected_subject':selsub,'subject':subject,'day':dates()})
 
-
+@login_required
 def viewAttendance(request,subject):
     try:
         sub=Subject.objects.get(subject_name=subject,faculty=request.user.faculty)
@@ -92,11 +96,13 @@ def newSelectedSubject(request,id):
 
 @login_required
 def newSubject(request):
+    newsub=request.POST.get('name')
+    if newsub:
+        newsub=newsub.replace(' ','_')
+        newsub=newsub.replace(r"'",'')
 
-    if request.POST.get('name'):
+        Subject.objects.get_or_create(faculty=request.user.faculty,subject_name=newsub.lower())
 
-        r=Subject(faculty=request.user.faculty,subject_name=request.POST.get('name'))
-        r.save()
 
     return redirect("profile")
 

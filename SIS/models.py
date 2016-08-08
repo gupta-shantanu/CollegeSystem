@@ -76,7 +76,9 @@ class SelectedSubject(models.Model):
         a=self.attendance.all()
         return a.filter(present=False).count()
     def eligiblity(self):
-        return self.percentage()>60
+        if self.percentage()=='N.A':
+            return False
+        return float(self.percentage()[:-1])>60
     def timesheet(self):
         return self.attendance.all().order_by('Date')
 

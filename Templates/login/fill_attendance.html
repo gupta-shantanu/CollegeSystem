@@ -44,7 +44,11 @@
 			{% endfor %}
 			</tbody>
 			</table>
+            {% if not selected_subject %}
+                <div class="alert alert-warning"><strong>Sorry!</strong> You can't submit attendance yet as, no Student has enrolled for this subject...</div>
+            {% else %}
             <button type="submit" name="submit" value="{{ subject }}" class="btn btn-success">Submit Attendance</button>
+            {% endif %}
             </form>
 		</div>
   </div>

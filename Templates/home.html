@@ -1,8 +1,15 @@
 {% extends 'base_visitor.html' %}
-{% block home_active %}active{% endblock %}
+
+{% block extra_head %}
+<style>
+.carousel-inner > .item > img {
+    margin: 0 auto;
+}
+</style>
+{% endblock %}
 {% load staticfiles %}
 {% block body %}
-    <div class="container-fluid songs-container">
+    <div class="container-fluid">
 
         <div class="row">
 		                <div class="panel panel-default">
@@ -11,16 +18,49 @@
 							Welcome to <strong>Bundelkhand Institute of Engineering and Technology</strong>
 					</div>
 				</div>
-		<div class="panel panel-default">
-			<div class="panel-body">	
-				<img src="{% static 'slide1.jpg' %}" class="img-responsive" style='float:right;'>
-					<br>
-				<img src="{% static 'slide4.jpg' %}" class="img-responsive">
-			</div>	
-	 	</div>			
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" >
+
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
+  </ol>
+
+
+  <div class="carousel-inner" role="listbox" >
+    <div class="item active" style="max-height: 225px">
+      <img src="media/img_1.jpg" alt="BIET1">
+    </div>
+
+    <div class="item" style="max-height: 225px">
+      <img src="media/img_2.jpg" alt="BIET1">
+    </div>
+
+    <div class="item" style="max-height: 225px">
+      <img src="media/img_3.jpg" alt="BIET1">
+    </div>
+
+    <div class="item" style="max-height: 225px">
+      <img src="media/img_4.jpg" alt="BIET1">
+    </div>
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
 			
                 <div class="panel panel-default">
-                    
+                    <div class="panel-heading">
+	                               About Us
+                            </div>
                         <div class="panel-body">
 <p id="directorspeech">Bundelkhand Institute of Engineering &amp; Technology, Jhansi has proved
  to be the most preferred destination for aspiring technologists across the country. The institute consistently 
@@ -34,7 +74,17 @@
                         </div>
 					</div>
 				
-				
+				<div class="panel panel-info">
+	                        <div class="panel-heading">
+	                               Our Mission
+                            </div>
+	                        <div class="panel-body">
+    <div class="well">"To produce world class Technocrats"</div>
+
+Bundelkhand Institute of Engineering and Technology is steadily surging ahead as an eminent centre of excellence for higher scientific, Vocational, innovative, interdisciplinary technical education of International standards. This seat of hoigher learning is not just devoted to impart and spread quality knowledge but also strives to ensure quality life to one and all.
+                             </div>
+                </div>
+
 				
 
                     
