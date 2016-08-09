@@ -67,7 +67,7 @@ class SelectedSubject(models.Model):
         p,a=self.present(),self.absent()
         s=p+a
         if s!=0:
-            return str(p*100/s)+"%"
+            return str(round(p*100.0/s,2))+"%"
         else:
             return 'N.A'
     def present(self):
