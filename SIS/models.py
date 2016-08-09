@@ -66,7 +66,7 @@ class SelectedSubject(models.Model):
     def percentage(self):
         p,a=self.present(),self.absent()
         if (p+a)!=0:
-            return str(p/(p+a)*100)+"%"
+            return str(p)+"^"
         else:
             return 'N.A'
     def present(self):
